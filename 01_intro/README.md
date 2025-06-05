@@ -153,7 +153,7 @@ bash Anaconda3-<versão>-Linux-x86_64.sh
 
 Claro! Aqui está o **resumo em tópicos** da **Parte 3** do vídeo "[LLM Zoomcamp 1.3 - Retrieval and Search](https://www.youtube.com/watch?v=olvem333Bqo)" com base na transcrição:
 
-## 🧠 Parte 3 - Recuperação e Pesquisa
+## 🔎 Parte 3 - Recuperação e Pesquisa
 
 #### 📌 Visão Geral
 
@@ -218,7 +218,7 @@ Claro! Aqui está o **resumo em tópicos** da **Parte 3** do vídeo "[LLM Zoomca
 * Próximo passo: **inserir os documentos em um LLM** para gerar respostas contextualizadas (próximo vídeo).
 ---
 
-## 📌 Parte 4 – Gerando Respostas com GPT-4o
+## 🤖 Parte 4 – Gerando Respostas com GPT-4o
 
 ### 🎯 Objetivo da Aula
 
@@ -315,3 +315,66 @@ Resposta: O curso começou no dia 1º de maio.
   * Modularizar: separar em funções reutilizáveis.
   * Facilitar a troca de componentes (ex: mudar o banco de dados ou o modelo LLM).
 * Preparar a base para integrar com outras ferramentas de busca ou modelos de linguagem.
+
+
+## 🧹 Parte 5 – Limpeza e modularização do fluxo RAG
+
+### 🧱 **Estrutura geral do fluxo RAG**
+
+1. **Consulta (query)** enviada ao índice de busca.
+2. **Recuperação** dos documentos relevantes.
+3. **Construção do prompt** com os resultados e a consulta.
+4. Envio do prompt ao **LLM (ex: GPT-4)**.
+5. Retorno da **resposta final** ao usuário.
+
+### 🧩 Modularização do Código
+
+A lógica foi separada em funções simples e independentes:
+
+#### 1. `search(query)`
+
+* Realiza a busca com base na query.
+* Usa o mecanismo de busca atual (MinSearch).
+* Retorna os documentos encontrados.
+
+#### 2. `build_prompt(query, search_results)`
+
+* Constrói o prompt usando a consulta e os documentos retornados.
+* Retorna o prompt a ser enviado ao LLM.
+
+#### 3. `ask_llm(prompt)`
+
+* Envia o prompt ao modelo de linguagem (ex: GPT-4).
+* Retorna a resposta gerada.
+
+#### 4. `rag(query)`
+
+* Encapsula todo o fluxo: busca ➝ prompt ➝ LLM.
+* Permite fazer uma chamada simples: `rag("sua pergunta")`.
+
+### 🧪 **Testes e ajustes**
+
+* Testou perguntas como:
+
+  * “Como executo o Kafka?”
+  * “O curso já começou, ainda posso me inscrever?”
+* Corrigiu um erro de variável (usando `query` corretamente no lugar de `q`).
+* Ajustou o número de documentos retornados (ex: 5 ou 10).
+
+### 🔄 **Facilidade para trocar componentes**
+
+* Substituir `MinSearch` por `Elasticsearch` → Basta trocar a função `search`.
+* Trocar GPT-4 por outro LLM → Alterar `ask_llm`.
+* Código modular facilita a **experimentação e extensão**.
+
+### ✅ **Resultado**
+
+* Código mais **organizado**, **legível** e **flexível**.
+* Cada função pode ser **testada separadamente**.
+* Facilita o uso e experimentação com **diferentes tecnologias** no fluxo RAG.
+
+### 📍Próximo passo (próximo vídeo)
+
+> Substituir o mecanismo de busca **MinSearch** por **Elasticsearch**.
+
+sa

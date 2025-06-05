@@ -5,13 +5,19 @@ name = "pypi"
 
 [packages]
 requests = "*"
-pandas = "*"
-scikit-learn = "*"
 transformers = "*"
-tqdm = "*"
 torch = "*"
 pip = "*"
 nltk = "*"
+tqdm = "*"
+notebook = "==7.1.2"
+openai = "*"
+elasticsearch = "==8.13.0"
+pandas = "*"
+scikit-learn = "*"
+ipywidgets = "*"
+minsearch = "*"
+groq = "*"
 
 [dev-packages]
 ipykernel = "*"
