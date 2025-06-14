@@ -18,6 +18,7 @@ scikit-learn = "*"
 ipywidgets = "*"
 minsearch = "*"
 groq = "*"
+tiktoken = "*"
 
 [dev-packages]
 ipykernel = "*"
