@@ -17,9 +17,9 @@ Aqui você encontrará:
 
 ## 📚 Estrutura do Curso
 
-* [Módulo 0 - Mecanismo de Busca](00_SearchEngine) 🔄
-* [Módulo 1 - Introdução a LLMs e RAG](01_intro) 🔄
-* Módulo 2 - Busca Vetorial e Embeddings
+* [Módulo 0 - Mecanismo de Busca](00_SearchEngine) ✅
+* [Módulo 1 - Introdução a LLMs e RAG](01_Intro) ✅
+* [Módulo 2 - Busca Vetorial e Embeddings](02_VectorSearch)🔄
 * Módulo 3 - Avaliação com LLMs
 * Módulo 4 - Monitoramento com Dashboards
 * Módulo 5 - Melhores Práticas

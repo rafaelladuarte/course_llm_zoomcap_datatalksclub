@@ -19,10 +19,11 @@ ipywidgets = "*"
 minsearch = "*"
 groq = "*"
 tiktoken = "*"
+numpy = "*"
+qdrant-client = {extras = ["fastembed"], version = "*"}
 
 [dev-packages]
 ipykernel = "*"
 
 [requires]
 python_version = "3.12"
-
