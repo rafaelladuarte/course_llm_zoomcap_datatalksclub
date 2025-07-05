@@ -20,6 +20,7 @@ minsearch = "*"
 groq = "*"
 tiktoken = "*"
 numpy = "*"
+dlt = {extras = ["qdrant"], version = "*"}
 qdrant-client = {extras = ["fastembed"], version = "*"}
 
 [dev-packages]
