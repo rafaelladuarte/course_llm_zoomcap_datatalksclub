@@ -4,6 +4,7 @@ import json
 from IPython.display import display, HTML
 import markdown
 
+
 class Tools:
     def __init__(self):
         self.tools = {}
@@ -12,7 +13,7 @@ class Tools:
     def add_tool(self, function, description):
         self.tools[function.__name__] = description
         self.functions[function.__name__] = function
-    
+
     def get_tools(self):
         return list(self.tools.values())
 
@@ -41,14 +42,16 @@ class ChatInterface:
     def input(self):
         question = input("You:")
         return question
-    
+
     def display(self, message):
         print(message)
 
     def display_function_call(self, entry, result):
         call_html = f"""
             <details>
-            <summary>Function call: <tt>{entry.name}({shorten(entry.arguments)})</tt></summary>
+            <summary>Function call: <tt>{entry.name}(
+                {shorten(entry.arguments)}
+            )</tt></summary>
             <div>
                 <b>Call</b>
                 <pre>{entry}</pre>
@@ -57,7 +60,7 @@ class ChatInterface:
                 <b>Output</b>
                 <pre>{result['output']}</pre>
             </div>
-            
+
             </details>
         """
         display(HTML(call_html))
@@ -73,21 +76,36 @@ class ChatInterface:
         display(HTML(html))
 
 
-
 class ChatAssistant:
     def __init__(self, tools, developer_prompt, chat_interface, client):
         self.tools = tools
         self.developer_prompt = developer_prompt
         self.chat_interface = chat_interface
         self.client = client
-    
+
+    # def groq(model, prompt):
+    #     url = "https://api.groq.com/openai/v1/chat/completions"
+    #     headers = {
+    #         "Authorization": f"Bearer {os.getenv("GROQ_API_KEY")}",
+    #         "Content-Type": "application/json"
+    #     }
+    #     data = {
+    #         "model": model,
+    #         "messages": [{"role": "user", "content": prompt}]
+    #     }
+
+    #     response = requests.post(url, headers=headers, json=data)
+    #     response.raise_for_status()
+
+    #     return response.json()["choices"][0]["message"]["content"]
+
     def gpt(self, chat_messages):
-        return self.client.responses.create(
-            model='gpt-4o-mini',
-            input=chat_messages,
+        return self.client.chat.completions.create(
+            model='gemma2-9b-it',
+            # input=chat_messages,
+            messages=chat_messages,
             tools=self.tools.get_tools(),
         )
-
 
     def run(self):
         chat_messages = [
@@ -97,7 +115,7 @@ class ChatAssistant:
         # Chat loop
         while True:
             question = self.chat_interface.input()
-            if question.strip().lower() == 'stop':  
+            if question.strip().lower() == 'stop':
                 self.chat_interface.display("Chat ended.")
                 break
 
@@ -109,13 +127,16 @@ class ChatAssistant:
 
                 has_messages = False
 
-                for entry in response.output:
+                for entry in response.json()["choices"][0]["message"]["content"]:
                     chat_messages.append(entry)
 
                     if entry.type == "function_call":
                         result = self.tools.function_call(entry)
                         chat_messages.append(result)
-                        self.chat_interface.display_function_call(entry, result)
+                        self.chat_interface.display_function_call(
+                            entry,
+                            result
+                        )
 
                     elif entry.type == "message":
                         self.chat_interface.display_response(entry)
@@ -123,6 +144,3 @@ class ChatAssistant:
 
                 if has_messages:
                     break
-    
-
-

@@ -1,0 +1,21 @@
+services:
+
+  elasticsearch:
+    image: elasticsearch:8.17.6
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    mem_limit: 2g
+  
+  qdrant:
+    image: qdrant/qdrant
+    ports: 
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
